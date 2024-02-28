@@ -50,6 +50,38 @@ void main() {
       clock.advance(5.seconds);
       expect(timer.value, Duration.zero);
     });
+
+    test(
+        'GIVEN a paused timer '
+        'WHEN it is resumed '
+        'THEN it starts running again', () {
+      var timer = AppTimer(FakeClock()).pause();
+      expect(timer.isRunning, false);
+      expect(timer.isPaused, true);
+
+      timer = timer.resume();
+      expect(timer.isRunning, true);
+      expect(timer.isPaused, false);
+    });
+
+    test(
+        'GIVEN a paused timer '
+        'WHEN it is resumed '
+        'AND time elapses '
+        'THEN the timer value changes accordingly', () {
+      final clock = FakeClock();
+
+      var timer = AppTimer(clock);
+      clock.advance(5.seconds);
+
+      timer = timer.pause();
+      clock.advance(5.seconds);
+
+      timer = timer.resume();
+      clock.advance(5.seconds);
+
+      expect(timer.value, 10.seconds);
+    });
   });
 }
 

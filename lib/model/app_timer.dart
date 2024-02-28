@@ -3,8 +3,12 @@ import 'package:odoo_timers/model/clock.dart';
 class AppTimer {
   AppTimer(Clock clock) : this._(clock);
 
-  AppTimer._(this.clock, {this.isRunning = true, DateTime? endTime})
-      : _startTime = clock.now(),
+  AppTimer._(
+    this.clock, {
+    this.isRunning = true,
+    DateTime? startTime,
+    DateTime? endTime,
+  })  : _startTime = startTime ?? clock.now(),
         _endTime = endTime;
 
   final Clock clock;
@@ -28,13 +32,20 @@ class AppTimer {
         endTime: clock.now(),
       );
 
+  AppTimer resume() => _copyWith(
+        isRunning: true,
+        startTime: clock.now().subtract(value),
+      );
+
   AppTimer _copyWith({
     bool? isRunning,
+    DateTime? startTime,
     DateTime? endTime,
   }) {
     return AppTimer._(
       clock,
       isRunning: isRunning ?? this.isRunning,
+      startTime: startTime ?? _startTime,
       endTime: endTime ?? _endTime,
     );
   }
