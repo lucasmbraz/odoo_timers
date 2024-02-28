@@ -23,6 +23,33 @@ void main() {
       clock.advance(5.seconds);
       expect(timer.value, 5.seconds);
     });
+
+    test(
+        'WHEN the timer is paused '
+        'THEN it stops running', () {
+      var timer = AppTimer(FakeClock());
+      expect(timer.isRunning, true);
+      expect(timer.isPaused, false);
+
+      timer = timer.pause();
+
+      expect(timer.isRunning, false);
+      expect(timer.isPaused, true);
+    });
+
+    test(
+        'GIVEN a paused timer '
+        'WHEN time elapses '
+        'THEN the timer value does not change', () {
+      final clock = FakeClock();
+
+      final timer = AppTimer(clock).pause();
+      expect(timer.isRunning, false);
+      expect(timer.isPaused, true);
+
+      clock.advance(5.seconds);
+      expect(timer.value, Duration.zero);
+    });
   });
 }
 
