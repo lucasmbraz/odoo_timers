@@ -19,7 +19,7 @@ dependencies:
   uuid: ^4.3.3
 
 dev_dependencies:
-  bloc_test: ^9.1.4
+  bloc_test: ^9.1.7
   build_runner:
   flutter_test:
     sdk: flutter
